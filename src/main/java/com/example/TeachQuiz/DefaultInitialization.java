@@ -20,13 +20,13 @@ public class DefaultInitialization implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-//        this.createAndPersistUser("marek", "marek123");
-//        this.createAndPersistUser("adko", "adko1234");
+//        this.createAndPersistUser("marek", "marek123", "pavolhodas4@gmail.com");
+//        this.createAndPersistUser("adko", "adko1234", "paolhodas4@gmail.com");
     }
 
-    private void createAndPersistUser(String username, String password) {
+    private void createAndPersistUser(String username, String password, String email) {
         String encodedPassword = this.passwordEncoder.encode(password);
-        User user = new User(username, encodedPassword, 0);
+        User user = new User(username, encodedPassword, email);
         this.userService.addUser(user);
     }
 
