@@ -24,6 +24,7 @@ public class QuizController {
 
     @PostMapping("/update/quiz")
     public Quiz updateQuiz(Quiz quiz){
+
         return quizService.updateQuiz(quiz);
     }
 
