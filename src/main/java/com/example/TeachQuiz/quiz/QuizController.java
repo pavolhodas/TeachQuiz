@@ -1,5 +1,6 @@
 package com.example.TeachQuiz.quiz;
 
+import com.example.TeachQuiz.question.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,9 +9,12 @@ public class QuizController {
 
     private final QuizService quizService;
 
+    private final QuestionService questionService;
+
     @Autowired
-    public QuizController(QuizService quizService) {
+    public QuizController(QuizService quizService, QuestionService questionService) {
         this.quizService = quizService;
+        this.questionService = questionService;
     }
 
     @PostMapping("/add/quiz")

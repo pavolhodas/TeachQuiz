@@ -13,7 +13,7 @@ public class QuizServiceImpl implements QuizService{
 
     @Override
     public Quiz addQuiz(Quiz quiz) {
-        return this.repository.save(quiz);
+        return repository.save(quiz);
     }
 
     @Override
