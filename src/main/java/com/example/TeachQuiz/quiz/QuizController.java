@@ -9,12 +9,9 @@ public class QuizController {
 
     private final QuizService quizService;
 
-    private final QuestionService questionService;
-
     @Autowired
     public QuizController(QuizService quizService, QuestionService questionService) {
         this.quizService = quizService;
-        this.questionService = questionService;
     }
 
     @PostMapping("/add/quiz")
@@ -24,7 +21,6 @@ public class QuizController {
 
     @PostMapping("/update/quiz")
     public Quiz updateQuiz(Quiz quiz){
-
         return quizService.updateQuiz(quiz);
     }
 
