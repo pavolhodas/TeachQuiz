@@ -1,7 +1,11 @@
 package com.example.TeachQuiz.user;
 
+import net.bytebuddy.utility.RandomString;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +20,38 @@ import java.net.URL;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender emailSenderService;
     private final UserRepository repository;
 
-    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder, JavaMailSender emailSenderService) {
+    @Autowired
+    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder, JavaMailSender emailSenderService, ModelMapper modelMapper) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
         this.emailSenderService = emailSenderService;
+        this.modelMapper = modelMapper;
     }
 
+    @Override
+    public String getAccessToken(String username) {
+        User user = repository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return user.getVerificationCode();
+    }
+    @Override
+    public boolean verifyUser(String verificationCode) {
+        User user = repository.findByVerificationCode(verificationCode);
+
+        if (user == null || user.isEnabled()) {
+            return false;
+        } else {
+            user.setVerificationCode(null);
+            user.setEnabled(true);
+            repository.save(user);
+
+            return true;
+        }
+    }
     @Override
     public Optional<User> getUserByUsername(String username) {
         return this.repository.findByUsername(username);
@@ -37,10 +63,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser( User user) {
+    public UserDTO addUser(User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        //repository.save(user);
-        String username = user.getUsername();
+        String randomCode = RandomString.make(64);
+        user.setVerificationCode(randomCode);
+        user.setEnabled(false);
+        sendVerifyEmail(user);
+        if(user.getRole() == null){
+            user.setRole("USER");
+        }
+
+        return convertToDtoLogin(this.repository.save(user));
+    }
+
+    private UserDTO convertToDtoLogin(User user){
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+        userDTO.setUsername(user.getUsername());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setRole(user.getRole());
+        userDTO.setPassword(user.getPassword());
+        return userDTO;
+    }
+
+    public void sendVerifyEmail( User user) {
         String toAddress = user.getEmail();
         String fromAddress = "pavolhodas4@gmail.com";
         String senderName = "Quiz";
@@ -413,14 +458,14 @@ public class UserServiceImpl implements UserService {
 
         content = content.replace("[[name]]", user.getUsername());
 
-        String verifyURL = "http://localhost:4200" + "/verify";
+        String verifyURL = "http://localhost:4200" + "/verify/" +  user.getUsername();
 
         String verifyURL_QUIZ = "src/main/resources/quiiz-logo2.png";
         URL image = UserController.class.getResource("quiiz-logo2.png");
         content = content.replace("[[URL]]", verifyURL);
         content = content.replace("[[URL_QUIZ]]", verifyURL_QUIZ);
 
-        //userName = user.getUsername();
+        String userName = user.getUsername();
         MimeMessage message = emailSenderService.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -432,11 +477,7 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         }
 
-
-
         emailSenderService.send(message);
-
-        return this.repository.save(user);
     }
 
 }

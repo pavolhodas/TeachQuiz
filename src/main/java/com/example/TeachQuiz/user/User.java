@@ -21,6 +21,9 @@ public class User {
     private String password;
     private String role;
     private String email;
+    private boolean enabled;
+    private String verificationCode;
+
 
     public User(String username, String password, String email) {
         this.username = username;
