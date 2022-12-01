@@ -24,6 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/token/{username}").permitAll()
                 .antMatchers(HttpMethod.PUT, "/changePassword/{email}/{password}").permitAll()
                 .antMatchers(HttpMethod.GET, "/changePasswordEmail/{email}").permitAll()
+                .antMatchers(HttpMethod.GET, "/disabled/user").permitAll()
                 .antMatchers( "/add/quiz").hasAnyAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()

@@ -58,4 +58,9 @@ private final UserService userService;
         public void changePassword(@PathVariable String email, @PathVariable String password) {
                 userService.changePassword(email, password);
         }
+
+        @GetMapping("/disabled/user")
+        public User getDisabledUser() {
+                return userService.getDisabledUser();
+        }
 }

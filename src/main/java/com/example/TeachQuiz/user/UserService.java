@@ -11,6 +11,6 @@ public interface UserService {
 
     String getAccessToken(String username);
     void changePassword(String email, String password);
-
+    User getDisabledUser();
     void sendPasswordResetEmail(String email);
 }
