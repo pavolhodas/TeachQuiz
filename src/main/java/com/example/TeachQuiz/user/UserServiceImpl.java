@@ -78,8 +78,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changePassword(String username, String password) {
-        User user = repository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    public void changePassword(String email, String password) {
+        User user = repository.getUserByEmail(email);
         user.setPassword(passwordEncoder.encode(password));
         repository.save(user);
     }

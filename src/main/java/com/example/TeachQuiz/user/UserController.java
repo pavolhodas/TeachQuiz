@@ -54,8 +54,8 @@ private final UserService userService;
                 userService.sendPasswordResetEmail(email);
         }
 
-        @PutMapping("/changePassword/{username}/{password}")
-        public void changePassword(@PathVariable String username, @PathVariable String password) {
-                userService.changePassword(username, password);
+        @PutMapping("/changePassword/{email}/{password}")
+        public void changePassword(@PathVariable String email, @PathVariable String password) {
+                userService.changePassword(email, password);
         }
 }

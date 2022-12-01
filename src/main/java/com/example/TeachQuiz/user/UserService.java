@@ -10,7 +10,7 @@ public interface UserService {
     boolean verifyUser(String code);
 
     String getAccessToken(String username);
-    void changePassword(String username, String password);
+    void changePassword(String email, String password);
 
     void sendPasswordResetEmail(String email);
 }
