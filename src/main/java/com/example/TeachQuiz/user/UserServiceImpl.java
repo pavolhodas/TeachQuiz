@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException(e);
         }
 
-        String passwordRecoveryURL = "http://localhost:4200" + "/new-password-set";
+        String passwordRecoveryURL = "http://localhost:4200" + "/changePassword/{email}/{password}";
 
         content = content.replace("[[URL]]", passwordRecoveryURL);
 
