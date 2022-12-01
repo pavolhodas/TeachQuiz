@@ -29,4 +29,8 @@ public class QuizController {
         quizService.deleteQuiz(id);
     }
 
+    @GetMapping("/login")
+    public Integer verifyUser() {
+        return 1;
+    }
 }

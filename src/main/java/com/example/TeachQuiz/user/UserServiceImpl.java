@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.Optional;
 import javax.mail.MessagingException;
@@ -76,6 +77,18 @@ public class UserServiceImpl implements UserService {
         return convertToDtoLogin(this.repository.save(user));
     }
 
+    @Override
+    public void changePassword(String username, String password) {
+        User user = repository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        user.setPassword(passwordEncoder.encode(password));
+        repository.save(user);
+    }
+
+    @Override
+    public void sendPasswordResetEmail(String email) {
+        sendChangePasswordEmail(email);
+    }
+
     private UserDTO convertToDtoLogin(User user){
         UserDTO userDTO = modelMapper.map(user, UserDTO.class);
         userDTO.setUsername(user.getUsername());
@@ -85,6 +98,50 @@ public class UserServiceImpl implements UserService {
         return userDTO;
     }
 
+    public void sendChangePasswordEmail(String email){
+        String toAddress = email;
+        String fromAddress = "pavolhodas4@gmail.com";
+        String senderName = "Quiz";
+        String subject = "Zmena hesla";
+        String content = "Zmente si heslo:<br>"
+                + "<h3><a href=\"[[URL]]\" target=\"_self\">ZMENIŤ HESLO</a></h3>"
+                + "Ďakujeme,<br>"
+                + "Guiz.";
+
+        MimeMessage message = emailSenderService.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        try {
+            helper.setFrom(fromAddress, senderName);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            helper.setTo(toAddress);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            helper.setSubject(subject);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
+        String passwordRecoveryURL = "http://localhost:4200" + "/new-password-set";
+
+        content = content.replace("[[URL]]", passwordRecoveryURL);
+
+        try {
+            helper.setText(content, true);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
+        emailSenderService.send(message);
+
+    }
     public void sendVerifyEmail( User user) {
         String toAddress = user.getEmail();
         String fromAddress = "pavolhodas4@gmail.com";

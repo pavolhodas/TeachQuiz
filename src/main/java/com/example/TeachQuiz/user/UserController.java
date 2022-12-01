@@ -34,8 +34,6 @@ private final UserService userService;
         System.out.println("admin fu");
         }
 
-        String userName = "";
-
         @PostMapping("/register")
         public void registerUser(@RequestBody User user){
         userService.addUser(user);
@@ -49,5 +47,15 @@ private final UserService userService;
                 } else {
                         return "verify_fail";
                 }
+        }
+
+        @GetMapping("/changePasswordEmail/{email}")
+        public void sendPasswordResetEmail(@PathVariable String email) {
+                userService.sendPasswordResetEmail(email);
+        }
+
+        @PutMapping("/changePassword/{username}/{password}")
+        public void changePassword(@PathVariable String username, @PathVariable String password) {
+                userService.changePassword(username, password);
         }
 }
