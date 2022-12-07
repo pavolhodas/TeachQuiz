@@ -49,4 +49,9 @@ public class QuizController {
     public List<QuestionDto> getQuestionsForQuiz(@PathVariable Long quizId){
         return questionService.getQuestionsForQuiz(quizId);
     }
+
+    @GetMapping("/get/quiz/{quizId}")
+    public QuizDTO getQuizDto(@PathVariable Long quizId){
+        return quizService.getQuizById(quizId);
+    }
 }

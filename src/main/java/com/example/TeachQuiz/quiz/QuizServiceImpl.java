@@ -1,5 +1,7 @@
 package com.example.TeachQuiz.quiz;
 
+import com.example.TeachQuiz.question.Question;
+import com.example.TeachQuiz.question.QuestionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -9,12 +11,13 @@ import java.util.List;
 public class QuizServiceImpl implements QuizService{
 
     private final QuizRepository repository;
-
     private final ModelMapper mapper;
+    private final QuestionService questionService;
 
-    public QuizServiceImpl(QuizRepository repository, ModelMapper mapper) {
+    public QuizServiceImpl(QuizRepository repository, QuestionService questionService, ModelMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
+        this.questionService = questionService;
     }
 
     @Override
@@ -28,8 +31,8 @@ public class QuizServiceImpl implements QuizService{
     }
 
     @Override
-    public Quiz getQuizById(Long id) {
-        return this.repository.getById(id);
+    public QuizDTO getQuizById(Long id) {
+        return convertToDto(repository.getById(id));
     }
 
     @Override
@@ -51,6 +54,7 @@ public class QuizServiceImpl implements QuizService{
         QuizDTO quizDto = mapper.map(quiz, QuizDTO.class);
         quizDto.setTitle(quiz.getTitle());
         quizDto.setDescription(quiz.getDescription());
+        quizDto.setQuestionList(questionService.getQuestionsForQuiz(quiz.getId()));
         return quizDto;
     }
 }
