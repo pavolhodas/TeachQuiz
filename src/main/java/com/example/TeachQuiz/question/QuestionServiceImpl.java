@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,11 +48,13 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<QuestionDto> getQuestionsForQuiz(Long quizId) {
 
-        return questionRepository.findAllByQuizId(quizId).stream().map(question -> {
+        List<QuestionDto> questionDtos = new java.util.ArrayList<>(questionRepository.findAllByQuizId(quizId).stream().map(question -> {
             QuestionDto questionDto = modelMapper.map(question, QuestionDto.class);
             questionDto.setAnswerList(answerService.getAnswers(question.getId()));
             return questionDto;
-        }).collect(Collectors.toList());
+        }).toList());
+        Collections.shuffle(questionDtos);
+        return questionDtos;
     }
 
     private QuestionDto convertToDto(Question question){
