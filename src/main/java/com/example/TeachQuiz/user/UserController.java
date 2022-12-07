@@ -39,9 +39,8 @@ private final UserService userService;
         userService.addUser(user);
         }
 
-        @GetMapping("/verify/{username}")
-        public String verifyUser(@PathVariable String username, @Param("code") String code) {
-                userService.getAccessToken(username);
+        @GetMapping("/verify/{code}")
+        public String verifyUser(@PathVariable String code) {
                 if (userService.verifyUser(code)) {
                         return "verify_success";
                 } else {

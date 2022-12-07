@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException(e);
         }
 
-        String passwordRecoveryURL = "http://localhost:4200" + "/passw-reset-form";
+        String passwordRecoveryURL = "http://localhost:4200" + "/changePassword/" + email + "/{password}";
 
         content = content.replace("[[URL]]", passwordRecoveryURL);
 
@@ -521,7 +521,7 @@ public class UserServiceImpl implements UserService {
 
         content = content.replace("[[name]]", user.getUsername());
 
-        String verifyURL = "http://localhost:4200" + "/verify/" +  user.getUsername();
+        String verifyURL = "http://localhost:4200" + "/verify/" + user.getVerificationCode();
 
         String verifyURL_QUIZ = "src/main/resources/quiiz-logo2.png";
         URL image = UserController.class.getResource("quiiz-logo2.png");
