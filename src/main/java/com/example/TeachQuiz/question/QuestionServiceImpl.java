@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -46,7 +45,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<QuestionDto> getQuestionsForQuiz(Long quizId) {
+    public List<QuestionDto> getQuestionsForQuiz(String quizId) {
 
         List<QuestionDto> questionDtos = new java.util.ArrayList<>(questionRepository.findAllByQuizId(quizId).stream().map(question -> {
             QuestionDto questionDto = modelMapper.map(question, QuestionDto.class);

@@ -6,6 +6,6 @@ public interface QuestionService {
     Question getQuestionById(Long id);
     List<Question> adminSaveQuestion(List<Question> questionList);
     void adminDelete(Long id);
-    List<QuestionDto> getQuestionsForQuiz(Long quizId);
+    List<QuestionDto> getQuestionsForQuiz(String quizId);
 }
 

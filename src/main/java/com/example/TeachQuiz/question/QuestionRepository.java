@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
-    @Query("SELECT q FROM Question q WHERE q.quiz.id = :id")
-    List<Question> findAllByQuizId(@Param("id") Long id);
+    @Query("SELECT q FROM Question q WHERE q.quiz.name = :name")
+    List<Question> findAllByQuizId(@Param("name") String name);
 
 }

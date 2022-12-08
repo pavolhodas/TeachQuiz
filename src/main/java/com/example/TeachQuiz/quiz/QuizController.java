@@ -1,6 +1,5 @@
 package com.example.TeachQuiz.quiz;
 
-import com.example.TeachQuiz.question.Question;
 import com.example.TeachQuiz.question.QuestionDto;
 import com.example.TeachQuiz.question.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ public class QuizController {
     }
 
     @DeleteMapping("/delete/quiz/{id}")
-    public void deleteQuiz(@PathVariable Long id){
+    public void deleteQuiz(@PathVariable String id){
         quizService.deleteQuiz(id);
     }
 
@@ -40,18 +39,18 @@ public class QuizController {
         return 1;
     }
 
-    @GetMapping("/get/{title}")
-    public QuizDTO getQuiz(@PathVariable String title){
-        return quizService.getQuizByName(title);
+    @GetMapping("/get/{name}")
+    public QuizDTO getQuiz(@PathVariable String name){
+        return quizService.getQuizByName(name);
     }
 
     @GetMapping("/quiz/{quizId}")
-    public List<QuestionDto> getQuestionsForQuiz(@PathVariable Long quizId){
+    public List<QuestionDto> getQuestionsForQuiz(@PathVariable String quizId){
         return questionService.getQuestionsForQuiz(quizId);
     }
 
     @GetMapping("/get/quiz/{quizId}")
-    public QuizDTO getQuizDto(@PathVariable Long quizId){
+    public QuizDTO getQuizDto(@PathVariable String quizId){
         return quizService.getQuizById(quizId);
     }
 }

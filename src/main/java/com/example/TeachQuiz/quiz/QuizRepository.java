@@ -6,6 +6,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
 
-    @Query("SELECT q FROM Quiz q WHERE q.title = :title")
-    Quiz getQuiz(@Param("title") String title);
+    @Query("SELECT q FROM Quiz q WHERE q.name = :name")
+    Quiz getQuizByName(@Param("name") String name);
+
+
 }

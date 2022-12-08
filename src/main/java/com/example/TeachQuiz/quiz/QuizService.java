@@ -6,11 +6,11 @@ import java.util.List;
 public interface QuizService {
     Quiz addQuiz(Quiz quiz);
     Quiz updateQuiz(Quiz quiz);
-    void deleteQuiz(Long id);
+    void deleteQuiz(String id);
 
     List<QuizDTO> getQuiz();
 
-    QuizDTO getQuizByName(String title);
+    QuizDTO getQuizByName(String name);
 
-    QuizDTO getQuizById(Long id);
+    QuizDTO getQuizById(String id);
 }

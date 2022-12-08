@@ -10,8 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class UserScoreServiceImpl implements UserScoreService {
 
@@ -36,7 +34,7 @@ public class UserScoreServiceImpl implements UserScoreService {
     public void saveScore(String quizName, Integer score) {
         UserScore userScore = new UserScore();
         userScore.setUser(getCurrentUser());
-        userScore.setQuiz(quizRepository.getQuiz(quizName));
+        userScore.setQuiz(quizRepository.getQuizByName(quizName));
         userScore.setScore(score);
         userScoreRepository.save(userScore);
     }
@@ -55,7 +53,7 @@ public class UserScoreServiceImpl implements UserScoreService {
         UserScoreDto userScoreDto = modelMapper.map(userScore, UserScoreDto.class);
         userScoreDto.setUserName(userScore.getUser().getUsername());
         userScoreDto.setScore(userScore.getScore());
-        userScoreDto.setQuizName(userScore.getQuiz().getTitle());
+        userScoreDto.setQuizName(userScore.getQuiz().getName());
         return userScoreDto;
     }
 }

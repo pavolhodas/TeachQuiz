@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class QuizDTO {
 
-    private String title;
+    private String name;
     private String description;
     private List<QuestionDto> questionList;
 }
