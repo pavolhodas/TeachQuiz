@@ -49,6 +49,7 @@ public class QuizController {
         return questionService.getQuestionsForQuiz(quizId);
     }
 
+    //getne cely quiz s otazkami a odpovedmi
     @GetMapping("/get/quiz/{quizId}")
     public QuizDTO getQuizDto(@PathVariable String quizId){
         return quizService.getQuizById(quizId);

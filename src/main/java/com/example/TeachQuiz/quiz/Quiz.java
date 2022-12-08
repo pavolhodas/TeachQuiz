@@ -20,7 +20,7 @@ public class Quiz {
 
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)
-    @JoinColumn(name = "quiz_id")
+    @JoinColumn(name = "quiz_name")
     private List<Question> questionList = new ArrayList<>();
 
 }
