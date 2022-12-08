@@ -79,7 +79,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changePassword(String email, String password) {
-        email = repository.getDisabledUser().getEmail();
         User user = repository.getUserByEmail(email);
         user.setPassword(passwordEncoder.encode(password));
         repository.save(user);
