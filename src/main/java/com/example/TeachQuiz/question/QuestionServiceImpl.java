@@ -47,13 +47,11 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<QuestionDto> getQuestionsForQuiz(String quizId) {
 
-        List<QuestionDto> questionDtos = new java.util.ArrayList<>(questionRepository.findAllByQuizId(quizId).stream().map(question -> {
+        return new java.util.ArrayList<>(questionRepository.findAllByQuizId(quizId).stream().map(question -> {
             QuestionDto questionDto = modelMapper.map(question, QuestionDto.class);
             questionDto.setAnswerList(answerService.getAnswers(question.getId()));
             return questionDto;
         }).toList());
-        Collections.shuffle(questionDtos);
-        return questionDtos;
     }
 
     private QuestionDto convertToDto(Question question){
