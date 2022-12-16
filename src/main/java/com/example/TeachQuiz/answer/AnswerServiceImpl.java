@@ -1,7 +1,5 @@
 package com.example.TeachQuiz.answer;
 
-import com.example.TeachQuiz.question.Question;
-import com.example.TeachQuiz.question.QuestionDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +39,7 @@ public class AnswerServiceImpl implements AnswerService {
 
     private AnswerDto convertToDto(Answer answer){
         AnswerDto answerDto = modelMapper.map(answer, AnswerDto.class);
-        answerDto.setContent(answer.getContent());
+        answerDto.setContent(answer.getAnswerContent());
         answerDto.setId(answer.getId());
         answerDto.setCorrect(answer.isCorrect());
         return answerDto;

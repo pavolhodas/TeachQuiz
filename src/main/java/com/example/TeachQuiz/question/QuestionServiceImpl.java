@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -56,7 +55,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     private QuestionDto convertToDto(Question question){
         QuestionDto questionDto = modelMapper.map(question, QuestionDto.class);
-        questionDto.setContent(question.getContent());
+        questionDto.setContent(question.getQuestionContent());
         questionDto.setId(question.getId());
         questionDto.setAnswerList(answerService.getAnswers(question.getId()));
         return questionDto;

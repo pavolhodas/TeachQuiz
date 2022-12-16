@@ -2,7 +2,6 @@ package com.example.TeachQuiz.question;
 
 import com.example.TeachQuiz.answer.Answer;
 import com.example.TeachQuiz.quiz.Quiz;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +17,7 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String content;
+    private String questionContent;
 
     @ManyToOne
     private Quiz quiz;
