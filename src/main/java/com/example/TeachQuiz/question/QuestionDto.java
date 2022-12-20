@@ -11,10 +11,11 @@ import java.util.List;
 public class QuestionDto {
 
     private long id;
-    private String content;
+    private String questionContent;
     private List<AnswerDto> answerList;
 
     public QuestionDto(String content) {
-        this.content = content;
+        this.questionContent = content;
     }
 }
+
