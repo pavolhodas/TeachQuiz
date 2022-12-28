@@ -1,5 +1,7 @@
 package com.example.TeachQuiz.userScore;
 
+import com.example.TeachQuiz.quiz.Quiz;
+import com.example.TeachQuiz.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,8 +9,9 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor
 public class UserScoreDto {
 
-    int score;
-    String userName;
-    String quizName;
+    private int score;
+    private Quiz quiz;
+    private User student;
+    private String teacherName;
 
 }

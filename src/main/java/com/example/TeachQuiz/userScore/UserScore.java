@@ -2,6 +2,8 @@ package com.example.TeachQuiz.userScore;
 
 import com.example.TeachQuiz.quiz.Quiz;
 import com.example.TeachQuiz.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,11 +18,15 @@ public class UserScore {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int score;
-    private String teacherName;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
     private Quiz quiz;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private User user;
+    private String teacherName;
+
+    @JsonBackReference
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    private User student;
 }

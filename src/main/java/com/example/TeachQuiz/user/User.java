@@ -26,10 +26,6 @@ public class User {
     private boolean enabled;
     private String verificationCode;
 
-    @Column(columnDefinition="tinyint(1) default 0")
-    private int skill;
-
-
     public User(String username, String password, String email) {
         this.username = username;
         this.password = password;

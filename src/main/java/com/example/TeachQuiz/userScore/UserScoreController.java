@@ -1,6 +1,10 @@
 package com.example.TeachQuiz.userScore;
 
+import com.example.TeachQuiz.quiz.QuizDTO;
+import com.example.TeachQuiz.user.User;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping
@@ -19,9 +23,21 @@ public class UserScoreController {
     }
 
     //getne score podla quizId
-    @GetMapping("/score/{quizId}")
-    public UserScoreDto getScoreForUser(@PathVariable Long quizId){
-        return userScoreService.getScoreForCurrentUser(quizId);
+    @GetMapping("/score/{quizName}")
+    public UserScoreDto getScoreForUser(@PathVariable String quizName){
+        return userScoreService.getScoreForCurrentUser(quizName);
+    }
+
+    //vsetky quizy ktore vytvoril teacher moze rozkliknut a zobrazia sa studenti
+    @GetMapping("/all/quiz/teacher")
+    public List<QuizDTO> getAllQuizzesCreatedByTeacher(){
+        return userScoreService.getAllQuizzesCreatedByTeacher();
+    }
+
+    //po kliknuti na quiz zobrazi sa zoznam studentov
+    @GetMapping("/users/{quizName}")
+    public List<User> getStudentsOfTeacher(@PathVariable String quizName){
+        return userScoreService.getStudentsForTeacher(quizName);
     }
 
 }

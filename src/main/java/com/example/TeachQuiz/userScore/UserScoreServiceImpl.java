@@ -1,5 +1,8 @@
 package com.example.TeachQuiz.userScore;
 
+import com.example.TeachQuiz.question.QuestionService;
+import com.example.TeachQuiz.quiz.Quiz;
+import com.example.TeachQuiz.quiz.QuizDTO;
 import com.example.TeachQuiz.quiz.QuizRepository;
 import com.example.TeachQuiz.user.User;
 import com.example.TeachQuiz.user.UserService;
@@ -10,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserScoreServiceImpl implements UserScoreService {
 
@@ -17,27 +22,41 @@ public class UserScoreServiceImpl implements UserScoreService {
     private final ModelMapper modelMapper;
     private final UserScoreRepository userScoreRepository;
     private final UserService userService;
+    private final QuestionService questionService;
 
     @Autowired
-    public UserScoreServiceImpl(QuizRepository quizRepository, ModelMapper modelMapper, UserScoreRepository userScoreRepository, UserService userService) {
+    public UserScoreServiceImpl(QuizRepository quizRepository, ModelMapper modelMapper, UserScoreRepository userScoreRepository, UserService userService, QuestionService questionService) {
         this.quizRepository = quizRepository;
         this.modelMapper = modelMapper;
         this.userScoreRepository = userScoreRepository;
         this.userService = userService;
+        this.questionService = questionService;
     }
+
     @Override
-    public UserScoreDto getScoreForCurrentUser(Long quizId) {
-        return convertToDto(userScoreRepository.getScoreForUserByQuiz(quizId, getCurrentUser().getId()));
+    public UserScoreDto getScoreForCurrentUser(String quizName) {
+        return convertToDto(userScoreRepository.getScoreForUserByQuiz(quizName, getCurrentUser().getId()));
     }
 
     @Override
     public void saveScore(String quizName, Integer score) {
         UserScore userScore = new UserScore();
-        userScore.setUser(getCurrentUser());
+        userScore.setStudent(getCurrentUser());
         userScore.setQuiz(quizRepository.getQuizByName(quizName));
         userScore.setScore(score);
         userScore.setTeacherName(quizRepository.getQuizByName(quizName).getCreator().getUsername());
         userScoreRepository.save(userScore);
+    }
+
+    @Override
+    public List<User> getStudentsForTeacher(String quizName) {
+        User user = getCurrentUser();
+        return userScoreRepository.getScoreForTeacherByStudents(user.getUsername(), quizName);
+    }
+
+    @Override
+    public List<QuizDTO> getAllQuizzesCreatedByTeacher() {
+        return userScoreRepository.getAllTeacherQuizzes(getCurrentUser().getUsername()).stream().map(this::convertQuizToDto).toList();
     }
 
     private User getCurrentUser() {
@@ -52,9 +71,20 @@ public class UserScoreServiceImpl implements UserScoreService {
 
     private UserScoreDto convertToDto(UserScore userScore){
         UserScoreDto userScoreDto = modelMapper.map(userScore, UserScoreDto.class);
-        userScoreDto.setUserName(userScore.getUser().getUsername());
+        userScoreDto.setTeacherName(userScore.getTeacherName());
+        userScoreDto.setStudent(userScore.getStudent());
         userScoreDto.setScore(userScore.getScore());
-        userScoreDto.setQuizName(userScore.getQuiz().getName());
+        userScoreDto.setQuiz(userScore.getQuiz());
         return userScoreDto;
     }
+
+    private QuizDTO convertQuizToDto(Quiz quiz){
+        QuizDTO quizDto = modelMapper.map(quiz, QuizDTO.class);
+        quizDto.setName(quiz.getName());
+        quizDto.setDescription(quiz.getDescription());
+        quizDto.setQuestionList(questionService.getQuestionsForQuiz(quiz.getName()));
+        quizDto.setCreator(quiz.getCreator());
+        return quizDto;
+    }
+
 }
