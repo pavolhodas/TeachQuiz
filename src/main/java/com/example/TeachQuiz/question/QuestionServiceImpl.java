@@ -55,7 +55,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     private QuestionDto convertToDto(Question question){
         QuestionDto questionDto = modelMapper.map(question, QuestionDto.class);
-        questionDto.setContent(question.getQuestionContent());
+        questionDto.setQuestionContent(question.getQuestionContent());
         questionDto.setId(question.getId());
         questionDto.setAnswerList(answerService.getAnswers(question.getId()));
         return questionDto;
