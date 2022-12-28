@@ -45,6 +45,8 @@ public class UserScoreServiceImpl implements UserScoreService {
         userScore.setQuiz(quizRepository.getQuizByName(quizName));
         userScore.setScore(score);
         userScore.setTeacherName(quizRepository.getQuizByName(quizName).getCreator().getUsername());
+        List<UserScore> userScores = userScoreRepository.getScoreForUserByQuizAndTeacher(quizName, getCurrentUser().getId(), quizRepository.getQuizByName(quizName).getCreator().getUsername());
+        userScore.setRepeated(userScores.size());
         userScoreRepository.save(userScore);
     }
 

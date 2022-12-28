@@ -24,6 +24,7 @@ public class UserScore {
     private Quiz quiz;
 
     private String teacherName;
+    private int repeated;
 
     @JsonBackReference
     @OneToOne(fetch = FetchType.LAZY)
