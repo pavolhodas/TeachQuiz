@@ -22,4 +22,7 @@ public interface UserScoreRepository extends CrudRepository<UserScore, Long> {
     @Query("SELECT u FROM UserScore u WHERE u.quiz.name = :quizName and u.student.id = :studentId and u.teacherName = :teacherName")
     List<UserScore> getScoreForUserByQuizAndTeacher(@Param("quizName") String quizName, @Param("studentId") Long studentId, @Param("teacherName") String teacherName);
 
+    @Query("SELECT u FROM UserScore u WHERE u.quiz.name = :quizName and u.student.id = :studentId")
+    List<UserScore> getUserScoreByQuizAndUser(@Param("quizName") String quizName, @Param("studentId") Long studentId);
+
 }

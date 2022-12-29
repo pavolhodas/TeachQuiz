@@ -23,7 +23,6 @@ public class Quiz {
     private List<Question> questionList = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
     private User creator;
 
 }

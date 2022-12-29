@@ -10,8 +10,9 @@ import lombok.Setter;
 public class UserScoreDto {
 
     private int score;
-    private Quiz quiz;
-    private User student;
+    //private Quiz quiz;
+    //private User student;
     private String teacherName;
+    private int repeated;
 
 }

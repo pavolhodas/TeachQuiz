@@ -3,6 +3,7 @@ package com.example.TeachQuiz.userScore;
 import com.example.TeachQuiz.quiz.Quiz;
 import com.example.TeachQuiz.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,15 +20,14 @@ public class UserScore {
     private Long id;
     private int score;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Quiz quiz;
 
     private String teacherName;
     private int repeated;
 
-    @JsonBackReference
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id")
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User student;
 }

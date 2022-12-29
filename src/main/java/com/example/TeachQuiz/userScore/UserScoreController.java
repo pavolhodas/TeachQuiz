@@ -2,6 +2,7 @@ package com.example.TeachQuiz.userScore;
 
 import com.example.TeachQuiz.quiz.QuizDTO;
 import com.example.TeachQuiz.user.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class UserScoreController {
 
     private final UserScoreService userScoreService;
 
+    @Autowired
     public UserScoreController(UserScoreService userScoreService) {
         this.userScoreService = userScoreService;
     }
@@ -38,6 +40,12 @@ public class UserScoreController {
     @GetMapping("/users/{quizName}")
     public List<User> getStudentsOfTeacher(@PathVariable String quizName){
         return userScoreService.getStudentsForTeacher(quizName);
+    }
+
+    @GetMapping("/users/{quizName}/{userId}")
+    @ResponseBody
+    public List<UserScoreDto> getUserScoreOfUserAndQuiz(@PathVariable String quizName, @PathVariable Long userId){
+        return userScoreService.getUserScoreOfUserAndQuiz(quizName, userId);
     }
 
 }

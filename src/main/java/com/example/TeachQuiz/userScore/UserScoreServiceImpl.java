@@ -61,6 +61,11 @@ public class UserScoreServiceImpl implements UserScoreService {
         return userScoreRepository.getAllTeacherQuizzes(getCurrentUser().getUsername()).stream().map(this::convertQuizToDto).toList();
     }
 
+    @Override
+    public List<UserScoreDto> getUserScoreOfUserAndQuiz(String quizName, Long userId) {
+        return userScoreRepository.getUserScoreByQuizAndUser(quizName, userId).stream().map(this::convertToDto).toList();
+    }
+
     private User getCurrentUser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder
                 .getContext()
@@ -74,9 +79,9 @@ public class UserScoreServiceImpl implements UserScoreService {
     private UserScoreDto convertToDto(UserScore userScore){
         UserScoreDto userScoreDto = modelMapper.map(userScore, UserScoreDto.class);
         userScoreDto.setTeacherName(userScore.getTeacherName());
-        userScoreDto.setStudent(userScore.getStudent());
+        //userScoreDto.setStudent(userScore.getStudent());
         userScoreDto.setScore(userScore.getScore());
-        userScoreDto.setQuiz(userScore.getQuiz());
+        //userScoreDto.setQuiz(userScore.getQuiz());
         return userScoreDto;
     }
 

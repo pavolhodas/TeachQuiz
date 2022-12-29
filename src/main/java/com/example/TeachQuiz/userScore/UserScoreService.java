@@ -14,4 +14,6 @@ public interface UserScoreService {
     List<User> getStudentsForTeacher(String quizName);
 
     List<QuizDTO> getAllQuizzesCreatedByTeacher();
+
+    List<UserScoreDto> getUserScoreOfUserAndQuiz(String quizName, Long userId);
 }
