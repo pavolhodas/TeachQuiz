@@ -13,4 +13,6 @@ public interface QuizService {
     QuizDTO getQuizByName(String name);
 
     QuizDTO getQuizById(String id);
+
+    List<QuizDTO> getQuizByTeacherId();
 }

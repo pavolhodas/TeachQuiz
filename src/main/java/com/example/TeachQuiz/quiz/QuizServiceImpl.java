@@ -45,6 +45,12 @@ public class QuizServiceImpl implements QuizService{
     }
 
     @Override
+    public List<QuizDTO> getQuizByTeacherId() {
+        Long creatorId = getCurrentUser().getId();
+        return repository.getQuizzesByCreator(creatorId).stream().map(this::convertToDto).toList();
+    }
+
+    @Override
     public void deleteQuiz(String id) {
         this.repository.getQuizByName(id);
     }

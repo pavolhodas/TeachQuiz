@@ -56,4 +56,9 @@ public class QuizController {
     public QuizDTO getQuizDto(@PathVariable String quizId){
         return quizService.getQuizById(quizId);
     }
+
+    @GetMapping("/get/quiz/teacher")
+    public List<QuizDTO> getQuizDto(){
+        return quizService.getQuizByTeacherId();
+    }
 }
