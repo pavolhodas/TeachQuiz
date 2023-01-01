@@ -16,7 +16,6 @@ public class ResultQuiz {
 
     @Id
     private String name;
-    private String description;
 
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)
