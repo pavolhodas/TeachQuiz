@@ -16,12 +16,16 @@ import java.util.List;
 public class ResultQuiz {
 
     @Id
-    private String name;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    private String quizName;
+
+    private String studentName;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)
-    @JoinColumn(name = "quiz_name")
     private List<ResultQuestion> questionList = new ArrayList<>();
 
 }

@@ -37,19 +37,24 @@ public class ResultQuizServiceImpl implements ResultQuizService {
 
   @Override
   public ResultQuiz saveResultquiz(ResultQuiz resultQuiz) {
+    resultQuiz.setStudentName(getCurrentUser().getUsername());
+    ResultQuiz resultQuiz1 = resultQuizRepository.getResultQuizByName(resultQuiz.getQuizName(), getCurrentUser().getUsername());
+    if(resultQuiz1 != null){
+      System.out.println("student already took this quiz");
+      return null;
+    }
     return resultQuizRepository.save(resultQuiz);
   }
 
   @Override
   public ResultQuiz sendChosenAnswer(ResultQuestion resultQuestion, String resultQuizName) {
     UserScore userScore = new UserScore();
-    userScore.setStudent(getCurrentUser());
-    userScore.setResultQuiz(resultQuizRepository.getResultQuizByName(resultQuizName));
+    userScore.setResultQuiz(resultQuizRepository.getResultQuizByName(resultQuizName, getCurrentUser().getUsername()));
     userScore.setTeacherName(quizRepository.getQuizByName(resultQuizName).getCreator().getUsername());
     List<UserScore> userScores = userScoreRepository.getScoreForUserByQuizAndTeacher(resultQuizName, getCurrentUser().getId(), quizRepository.getQuizByName(resultQuizName).getCreator().getUsername());
     userScore.setRepeated(userScores.size());
 
-    ResultQuiz resultQuiz = resultQuizRepository.getResultQuizByName(resultQuizName);
+    ResultQuiz resultQuiz = resultQuizRepository.getResultQuizByName(resultQuizName, getCurrentUser().getUsername());
     resultQuiz.getQuestionList().add(resultQuestion);
     resultQuizRepository.save(resultQuiz);
     userScoreRepository.save(userScore);
