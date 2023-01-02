@@ -1,5 +1,6 @@
 package com.example.TeachQuiz.result.resultQuiz;
 
+import com.example.TeachQuiz.result.resultQuestion.ResultQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +21,9 @@ public class ResultQuizController {
     return resultQuizService.saveResultquiz(resultQuiz);
   }
 
-  @PutMapping("/update/resultQuiz")
+  @PutMapping("/update/resultQuiz/{resultQuizName}")
   @ResponseBody
-  public ResultQuiz sendChosenAnswer(@RequestBody ResultQuiz resultQuiz){
-    return resultQuizService.sendChosenAnswer(resultQuiz);
+  public ResultQuiz sendChosenAnswer(@RequestBody ResultQuestion resultQuestion, @PathVariable String resultQuizName){
+    return resultQuizService.sendChosenAnswer(resultQuestion, resultQuizName);
   }
 }

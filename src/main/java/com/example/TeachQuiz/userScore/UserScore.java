@@ -1,6 +1,7 @@
 package com.example.TeachQuiz.userScore;
 
 import com.example.TeachQuiz.quiz.Quiz;
+import com.example.TeachQuiz.result.resultQuiz.ResultQuiz;
 import com.example.TeachQuiz.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,14 +21,13 @@ public class UserScore {
     private Long id;
     private int score;
 
-    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Quiz quiz;
-
     private String teacherName;
     private int repeated;
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User student;
+
+    @ManyToOne
+    private ResultQuiz resultQuiz;
 }

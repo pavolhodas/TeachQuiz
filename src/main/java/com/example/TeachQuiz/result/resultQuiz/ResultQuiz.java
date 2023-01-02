@@ -2,6 +2,7 @@ package com.example.TeachQuiz.result.resultQuiz;
 
 import com.example.TeachQuiz.question.Question;
 import com.example.TeachQuiz.result.resultQuestion.ResultQuestion;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,7 @@ public class ResultQuiz {
     @Id
     private String name;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JoinColumn(name = "quiz_name")

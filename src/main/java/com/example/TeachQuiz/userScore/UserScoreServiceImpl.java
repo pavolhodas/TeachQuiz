@@ -42,7 +42,7 @@ public class UserScoreServiceImpl implements UserScoreService {
     public void saveScore(String quizName, Integer score) {
         UserScore userScore = new UserScore();
         userScore.setStudent(getCurrentUser());
-        userScore.setQuiz(quizRepository.getQuizByName(quizName));
+        //userScore.setQuiz(quizRepository.getQuizByName(quizName));
         userScore.setScore(score);
         userScore.setTeacherName(quizRepository.getQuizByName(quizName).getCreator().getUsername());
         List<UserScore> userScores = userScoreRepository.getScoreForUserByQuizAndTeacher(quizName, getCurrentUser().getId(), quizRepository.getQuizByName(quizName).getCreator().getUsername());
