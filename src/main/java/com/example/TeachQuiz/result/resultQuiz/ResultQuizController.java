@@ -20,9 +20,9 @@ public class ResultQuizController {
     return resultQuizService.saveResultquiz(resultQuiz);
   }
 
-//  @PutMapping("/update/{resultQuiz}/{resultQuestion}/{resultAnswer}")
-//  @ResponseBody
-//  public ResultQuiz sendChosenAnswer(@PathVariable String resultQuiz ,@PathVariable String resultQuestion, @PathVariable String resultAnswer){
-//    return resultQuizService.sendChosenAnswer(resultQuiz ,resultQuestion, resultAnswer);
-//  }
+  @PutMapping("/update/resultQuiz")
+  @ResponseBody
+  public ResultQuiz sendChosenAnswer(@RequestBody ResultQuiz resultQuiz){
+    return resultQuizService.sendChosenAnswer(resultQuiz);
+  }
 }

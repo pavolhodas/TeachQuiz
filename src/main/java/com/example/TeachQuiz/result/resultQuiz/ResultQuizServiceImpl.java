@@ -1,5 +1,6 @@
 package com.example.TeachQuiz.result.resultQuiz;
 
+import com.example.TeachQuiz.result.resultAnswer.ResultAnswer;
 import com.example.TeachQuiz.result.resultQuestion.ResultQuestion;
 import com.example.TeachQuiz.result.resultQuestion.ResultQuestionRepository;
 import com.example.TeachQuiz.user.User;
@@ -27,13 +28,11 @@ public class ResultQuizServiceImpl implements ResultQuizService {
     return resultQuizRepository.save(resultQuiz);
   }
 
-//  @Override
-//  public ResultQuiz sendChosenAnswer(String resultQuiz, String resultQuestion, String resultAnswer) {
-//    ResultQuiz resultQuiz01 = resultQuizRepository.getQuizByName(resultQuiz);
-//    //ResultQuestion resultQuestion1 = resultQuestionRepository.findByResultQuestion(resultQuestion);
-//    resultQuiz01.setQuestionList();
-//    return resultQuiz;
-//  }
+  @Override
+  public ResultQuiz sendChosenAnswer(ResultQuiz resultQuiz) {
+    resultQuizRepository.save(resultQuiz);
+    return resultQuiz;
+  }
 
   private User getCurrentUser() {
     UserDetails userDetails = (UserDetails) SecurityContextHolder
