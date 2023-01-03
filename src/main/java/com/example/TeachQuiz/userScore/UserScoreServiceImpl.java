@@ -40,14 +40,22 @@ public class UserScoreServiceImpl implements UserScoreService {
 
     @Override
     public void saveScore(String quizName, Integer score) {
-        UserScore userScore = new UserScore();
-        userScore.setStudent(getCurrentUser());
-        //userScore.setQuiz(quizRepository.getQuizByName(quizName));
-        userScore.setScore(score);
-        userScore.setTeacherName(quizRepository.getQuizByName(quizName).getCreatorName());
-        List<UserScore> userScores = userScoreRepository.getScoreForUserByQuizAndTeacher(quizName, getCurrentUser().getId(), quizRepository.getQuizByName(quizName).getCreatorName());
-        userScore.setRepeated(userScores.size());
-        userScoreRepository.save(userScore);
+        UserScore userScore = userScoreRepository.getScoreForUserByQuiz(quizName, getCurrentUser().getId());
+        if(userScore == null) {
+          UserScore userScore1 = new UserScore();
+          userScore1.setStudent(getCurrentUser());
+          //userScore1.setQuiz(quizRepository.getQuizByName(quizName));
+          userScore1.setScore(score);
+          userScore1.setTeacherName(quizRepository.getQuizByName(quizName).getCreatorName());
+          List<UserScore> userScores = userScoreRepository.getScoreForUserByQuizAndTeacher(quizName, getCurrentUser().getId(), quizRepository.getQuizByName(quizName).getCreatorName());
+          userScore1.setRepeated(userScores.size());
+          userScoreRepository.save(userScore1);
+        }
+        else{
+          userScore.setScore(userScore.getScore() + score);
+          userScore.setRepeated(userScore.getRepeated() + 1);
+          userScoreRepository.save(userScore);
+        }
     }
 
     @Override
@@ -66,7 +74,7 @@ public class UserScoreServiceImpl implements UserScoreService {
         return userScoreRepository.getUserScoreByQuizAndUser(quizName, userId).stream().map(this::convertToDto).toList();
     }
 
-    private User getCurrentUser() {
+  private User getCurrentUser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
@@ -81,7 +89,7 @@ public class UserScoreServiceImpl implements UserScoreService {
         userScoreDto.setTeacherName(userScore.getTeacherName());
         //userScoreDto.setStudent(userScore.getStudent());
         userScoreDto.setScore(userScore.getScore());
-        //userScoreDto.setQuiz(userScore.getQuiz());
+        userScoreDto.setResultQuiz(userScore.getResultQuiz());
         return userScoreDto;
     }
 
