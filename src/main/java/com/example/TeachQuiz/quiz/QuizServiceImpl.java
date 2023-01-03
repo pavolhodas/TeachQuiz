@@ -30,7 +30,7 @@ public class QuizServiceImpl implements QuizService{
 
     @Override
     public Quiz addQuiz(Quiz quiz) {
-        quiz.setCreator(getCurrentUser());
+        quiz.setCreatorName(getCurrentUser().getUsername());
         return repository.save(quiz);
     }
 
@@ -40,19 +40,15 @@ public class QuizServiceImpl implements QuizService{
     }
 
     @Override
-    public QuizDTO getQuizById(String id) {
-        return convertToDto(repository.getQuizByName(id));
-    }
-
-    @Override
     public List<QuizDTO> getQuizByTeacherId() {
-        Long creatorId = getCurrentUser().getId();
-        return repository.getQuizzesByCreator(creatorId).stream().map(this::convertToDto).toList();
+        String creatorName = getCurrentUser().getUsername();
+        return repository.getQuizzesByCreator(creatorName).stream().map(this::convertToDto).toList();
     }
 
     @Override
-    public void deleteQuiz(String id) {
-        Quiz quiz =  this.repository.getQuizByName(id);
+    public void deleteQuiz(String name) {
+        Quiz quiz =  this.repository.getQuizByName(name);
+
         this.repository.delete(quiz);
     }
 
@@ -71,7 +67,7 @@ public class QuizServiceImpl implements QuizService{
         quizDto.setName(quiz.getName());
         quizDto.setDescription(quiz.getDescription());
         quizDto.setQuestionList(questionService.getQuestionsForQuiz(quiz.getName()));
-        quizDto.setCreator(quiz.getCreator());
+        quizDto.setCreatorName(quiz.getCreatorName());
         return quizDto;
     }
 

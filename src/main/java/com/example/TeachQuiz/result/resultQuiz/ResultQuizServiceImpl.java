@@ -1,7 +1,6 @@
 package com.example.TeachQuiz.result.resultQuiz;
 
 import com.example.TeachQuiz.quiz.QuizRepository;
-import com.example.TeachQuiz.result.resultAnswer.ResultAnswer;
 import com.example.TeachQuiz.result.resultQuestion.ResultQuestion;
 import com.example.TeachQuiz.result.resultQuestion.ResultQuestionRepository;
 import com.example.TeachQuiz.user.User;
@@ -50,8 +49,8 @@ public class ResultQuizServiceImpl implements ResultQuizService {
   public ResultQuiz sendChosenAnswer(ResultQuestion resultQuestion, String resultQuizName) {
     UserScore userScore = new UserScore();
     userScore.setResultQuiz(resultQuizRepository.getResultQuizByName(resultQuizName, getCurrentUser().getUsername()));
-    userScore.setTeacherName(quizRepository.getQuizByName(resultQuizName).getCreator().getUsername());
-    List<UserScore> userScores = userScoreRepository.getScoreForUserByQuizAndTeacher(resultQuizName, getCurrentUser().getId(), quizRepository.getQuizByName(resultQuizName).getCreator().getUsername());
+    userScore.setTeacherName(quizRepository.getQuizByName(resultQuizName).getCreatorName());
+    List<UserScore> userScores = userScoreRepository.getScoreForUserByQuizAndTeacher(resultQuizName, getCurrentUser().getId(), quizRepository.getQuizByName(resultQuizName).getCreatorName());
     userScore.setRepeated(userScores.size());
 
     ResultQuiz resultQuiz = resultQuizRepository.getResultQuizByName(resultQuizName, getCurrentUser().getUsername());

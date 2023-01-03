@@ -52,9 +52,9 @@ public class QuizController {
     }
 
     //getne cely quiz s otazkami a odpovedmi
-    @GetMapping("/get/quiz/{quizId}")
-    public QuizDTO getQuizDto(@PathVariable String quizId){
-        return quizService.getQuizById(quizId);
+    @GetMapping("/get/quiz/{quizName}")
+    public QuizDTO getQuizDto(@PathVariable String quizName){
+        return quizService.getQuizByName(quizName);
     }
 
     @GetMapping("/get/quiz/teacher")

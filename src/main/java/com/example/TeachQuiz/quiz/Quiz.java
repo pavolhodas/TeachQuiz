@@ -1,7 +1,6 @@
 package com.example.TeachQuiz.quiz;
 
 import com.example.TeachQuiz.question.Question;
-import com.example.TeachQuiz.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +21,6 @@ public class Quiz {
     @JoinColumn(name = "quiz_name")
     private List<Question> questionList = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private User creator;
+    private String creatorName;
 
 }

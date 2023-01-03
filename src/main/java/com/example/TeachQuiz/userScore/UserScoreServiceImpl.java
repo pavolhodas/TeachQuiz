@@ -44,8 +44,8 @@ public class UserScoreServiceImpl implements UserScoreService {
         userScore.setStudent(getCurrentUser());
         //userScore.setQuiz(quizRepository.getQuizByName(quizName));
         userScore.setScore(score);
-        userScore.setTeacherName(quizRepository.getQuizByName(quizName).getCreator().getUsername());
-        List<UserScore> userScores = userScoreRepository.getScoreForUserByQuizAndTeacher(quizName, getCurrentUser().getId(), quizRepository.getQuizByName(quizName).getCreator().getUsername());
+        userScore.setTeacherName(quizRepository.getQuizByName(quizName).getCreatorName());
+        List<UserScore> userScores = userScoreRepository.getScoreForUserByQuizAndTeacher(quizName, getCurrentUser().getId(), quizRepository.getQuizByName(quizName).getCreatorName());
         userScore.setRepeated(userScores.size());
         userScoreRepository.save(userScore);
     }
@@ -90,7 +90,7 @@ public class UserScoreServiceImpl implements UserScoreService {
         quizDto.setName(quiz.getName());
         quizDto.setDescription(quiz.getDescription());
         quizDto.setQuestionList(questionService.getQuestionsForQuiz(quiz.getName()));
-        quizDto.setCreator(quiz.getCreator());
+        quizDto.setCreatorName(quiz.getCreatorName());
         return quizDto;
     }
 

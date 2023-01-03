@@ -12,7 +12,7 @@ public interface QuizService {
 
     QuizDTO getQuizByName(String name);
 
-    QuizDTO getQuizById(String id);
+    //QuizDTO getQuizByName(String id);
 
     List<QuizDTO> getQuizByTeacherId();
 }
