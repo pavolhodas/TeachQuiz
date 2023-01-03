@@ -52,6 +52,7 @@ public class ResultQuizServiceImpl implements ResultQuizService {
     userScore.setTeacherName(quizRepository.getQuizByName(resultQuizName).getCreatorName());
     List<UserScore> userScores = userScoreRepository.getScoreForUserByQuizAndTeacher(resultQuizName, getCurrentUser().getId(), quizRepository.getQuizByName(resultQuizName).getCreatorName());
     userScore.setRepeated(userScores.size());
+    userScore.setStudent(getCurrentUser());
 
     ResultQuiz resultQuiz = resultQuizRepository.getResultQuizByName(resultQuizName, getCurrentUser().getUsername());
     resultQuiz.getQuestionList().add(resultQuestion);
@@ -59,6 +60,12 @@ public class ResultQuizServiceImpl implements ResultQuizService {
     userScoreRepository.save(userScore);
     //userScoreService.saveScore(resultQuiz.getName(), 40);
     return resultQuiz;
+  }
+
+  @Override
+  public ResultQuiz getResultQuizByName(String resultQuizName) {
+    //aby to returnlo cely result quiz s otazkami odpovedami sprav!!!!
+    return resultQuizRepository.getResultQuizByName(resultQuizName, getCurrentUser().getUsername());
   }
 
 

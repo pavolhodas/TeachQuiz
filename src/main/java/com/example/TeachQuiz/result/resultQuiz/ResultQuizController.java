@@ -26,4 +26,9 @@ public class ResultQuizController {
   public ResultQuiz sendChosenAnswer(@RequestBody ResultQuestion resultQuestion, @PathVariable String resultQuizName){
     return resultQuizService.sendChosenAnswer(resultQuestion, resultQuizName);
   }
+
+  @GetMapping("/get/resultQuiz/{resultQuizName}")
+  public ResultQuiz getResultQuiz(@PathVariable String resultQuizName){
+    return resultQuizService.getResultQuizByName(resultQuizName);
+  }
 }

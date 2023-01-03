@@ -15,7 +15,4 @@ public class ResultAnswer {
     private Long id;
     private String answerContent;
     private boolean isCorrect;
-
-    @ManyToOne
-    private ResultQuestion question;
 }

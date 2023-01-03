@@ -6,4 +6,6 @@ import com.example.TeachQuiz.userScore.UserScore;
 public interface ResultQuizService {
     ResultQuiz saveResultquiz(ResultQuiz resultQuiz);
     ResultQuiz sendChosenAnswer(ResultQuestion resultQuestion, String resultQuizName);
+
+  ResultQuiz getResultQuizByName(String resultQuizName);
 }

@@ -23,9 +23,9 @@ public class ResultQuiz {
 
     private String studentName;
 
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private List<ResultQuestion> questionList = new ArrayList<>();
+    @JoinColumn(name = "quiz_id")
+    private List<ResultQuestion> questionList;
 
 }

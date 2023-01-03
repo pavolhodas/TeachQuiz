@@ -19,11 +19,8 @@ public class ResultQuestion {
     private Long id;
     private String questionContent;
 
-    @ManyToOne
-    private ResultQuiz quiz;
-
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JoinColumn(name = "question_id")
-    List<ResultAnswer> answerList = new ArrayList<>();
+    List<ResultAnswer> answerList;
 }
