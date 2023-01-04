@@ -42,10 +42,10 @@ public class UserScoreController {
         return userScoreService.getStudentsForTeacher(quizName);
     }
 
-    @GetMapping("/users/{quizName}/{userId}")
+    @GetMapping("/users/{quizName}/{userName}")
     @ResponseBody
-    public List<UserScoreDto> getUserScoreOfUserAndQuiz(@PathVariable String quizName, @PathVariable Long userId){
-        return userScoreService.getUserScoreOfUserAndQuiz(quizName, userId);
+    public List<UserScoreDto> getUserScoreOfUserAndQuiz(@PathVariable String quizName, @PathVariable String userName){
+      return userScoreService.getUserScoreOfUserAndQuiz(quizName, userName);
     }
 
 }

@@ -70,8 +70,8 @@ public class UserScoreServiceImpl implements UserScoreService {
     }
 
     @Override
-    public List<UserScoreDto> getUserScoreOfUserAndQuiz(String quizName, Long userId) {
-        return userScoreRepository.getUserScoreByQuizAndUser(quizName, userId).stream().map(this::convertToDto).toList();
+    public List<UserScoreDto> getUserScoreOfUserAndQuiz(String quizName, String userName) {
+        return userScoreRepository.getUserScoreByQuizAndUserName(quizName, userName).stream().map(this::convertToDto).toList();
     }
 
   private User getCurrentUser() {
