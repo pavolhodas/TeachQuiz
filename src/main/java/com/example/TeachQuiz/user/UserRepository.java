@@ -17,4 +17,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE u.enabled = false")
     User getDisabledUser();
+
+  @Query("SELECT u.role FROM User u WHERE u = :user")
+  String getUser(@Param("user")User user);
 }

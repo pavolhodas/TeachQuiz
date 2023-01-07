@@ -13,4 +13,6 @@ public interface UserService {
     void changePassword(String email, String password);
     User getDisabledUser();
     void sendPasswordResetEmail(String email);
+
+    String getRole();
 }

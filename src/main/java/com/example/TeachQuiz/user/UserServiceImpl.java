@@ -5,6 +5,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender emailSenderService;
     private final UserRepository repository;
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
     @Autowired
     public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder, JavaMailSender emailSenderService, ModelMapper modelMapper) {
@@ -91,7 +95,12 @@ public class UserServiceImpl implements UserService {
         sendChangePasswordEmail(email);
     }
 
-    private UserDTO convertToDtoLogin(User user){
+  @Override
+  public String getRole() {
+    return repository.getUser(getCurrentUser());
+  }
+
+  private UserDTO convertToDtoLogin(User user){
         UserDTO userDTO = modelMapper.map(user, UserDTO.class);
         userDTO.setUsername(user.getUsername());
         userDTO.setEmail(user.getEmail());
@@ -538,5 +547,15 @@ public class UserServiceImpl implements UserService {
 
         emailSenderService.send(message);
     }
+
+    private User getCurrentUser() {
+      UserDetails userDetails = (UserDetails) SecurityContextHolder
+        .getContext()
+        .getAuthentication()
+        .getPrincipal();
+
+      String username = userDetails.getUsername();
+      return this.getUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+  }
 
 }

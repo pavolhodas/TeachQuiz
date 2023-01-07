@@ -44,4 +44,9 @@ private final UserService userService;
         public User getDisabledUser() {
                 return userService.getDisabledUser();
         }
+
+        @GetMapping("/role")
+        public String getRole() {
+    return userService.getRole();
+  }
 }
