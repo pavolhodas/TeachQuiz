@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
     }
 
   @Override
-  public String getRole() {
+  public User getRole() {
     return repository.getUser(getCurrentUser());
   }
 

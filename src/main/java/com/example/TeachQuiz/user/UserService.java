@@ -14,5 +14,5 @@ public interface UserService {
     User getDisabledUser();
     void sendPasswordResetEmail(String email);
 
-    String getRole();
+    User getRole();
 }

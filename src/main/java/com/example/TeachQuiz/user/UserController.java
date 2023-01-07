@@ -46,7 +46,7 @@ private final UserService userService;
         }
 
         @GetMapping("/role")
-        public String getRole() {
+        public User getRole() {
     return userService.getRole();
   }
 }
